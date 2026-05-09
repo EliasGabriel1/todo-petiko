@@ -7,6 +7,8 @@ use App\Models\Todo;
 use App\Models\TodoType;
 use App\Services\TodoService;
 use Illuminate\Http\Request;
+use App\Exports\TodosExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class TodoController extends Controller
 {
@@ -178,6 +180,10 @@ class TodoController extends Controller
         return response()->json($this->service->update($todoType, $todo, $data));
     }
 
+    public function export(){
+        return Excel::download(new TodosExport, 'todos.csv');
+    }
+
     /**
      * @OA\Delete(
      *     path="/api/todo-types/{todo_type}/todos/{todo}",
@@ -204,4 +210,5 @@ class TodoController extends Controller
 
         return response()->noContent();
     }
+    
 }
