@@ -13,11 +13,13 @@ class Todo extends Model
         'todo_type_id',
         'title',
         'description',
+        'due_date',
         'is_completed',
     ];
 
     protected $casts = [
         'is_completed' => 'boolean',
+        'due_date' => 'datetime',
     ];
 
     public function type()

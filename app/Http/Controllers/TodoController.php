@@ -91,6 +91,24 @@ class TodoController extends Controller
             'is_completed' => ['nullable', 'boolean'],
         ]);
 
+        // Require authenticated admin user to create todos
+        $token = $request->bearerToken();
+        if (! $token) {
+            return response()->json(['message' => 'Token não fornecido'], 401);
+        }
+
+        $authAdapter = app(\App\Adapters\AuthServiceAdapterInterface::class);
+        $user = $authAdapter->me($token);
+
+        if (! $user) {
+            return response()->json(['message' => 'Token inválido'], 401);
+        }
+
+        // Expect adapter to include a 'role' field; only allow 'admin'
+        if (! isset($user['is_admin']) || $user['is_admin'] !== 1) {
+            return response()->json(['message' => 'Apenas administradores podem criar tarefas'], 403);
+        }
+
         $todo = $this->service->createForType($todoType, array_merge(['is_completed' => false], $data));
 
         return response()->json($todo, 201);
