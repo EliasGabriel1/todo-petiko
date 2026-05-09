@@ -93,7 +93,6 @@ class TodoController extends Controller
             'due_date' => ['nullable', 'date'],
         ]);
 
-        // Require authenticated admin user to create todos
         $token = $request->bearerToken();
         if (! $token) {
             return response()->json(['message' => 'Token não fornecido'], 401);
@@ -106,7 +105,6 @@ class TodoController extends Controller
             return response()->json(['message' => 'Token inválido'], 401);
         }
 
-        // Expect adapter to include a 'role' field; only allow 'admin'
         if (! isset($user['is_admin']) || $user['is_admin'] !== 1) {
             return response()->json(['message' => 'Apenas administradores podem criar tarefas'], 403);
         }
