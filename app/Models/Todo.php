@@ -19,7 +19,7 @@ class Todo extends Model
 
     protected $casts = [
         'is_completed' => 'boolean',
-        'due_date' => 'datetime',
+        'due_date' => 'date',
     ];
 
     public function type()

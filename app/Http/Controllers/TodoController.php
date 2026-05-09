@@ -85,10 +85,12 @@ class TodoController extends Controller
      */
     public function store(Request $request, TodoType $todoType)
     {
+
         $data = $request->validate([
             'title' => ['required', 'string', 'max:255'],
             'description' => ['nullable', 'string'],
             'is_completed' => ['nullable', 'boolean'],
+            'due_date' => ['nullable', 'date'],
         ]);
 
         // Require authenticated admin user to create todos
