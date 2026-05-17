@@ -100,6 +100,8 @@ class TodoController extends Controller
             return response()->json(['message' => 'Token não fornecido'], 401);
         }
 
+
+        // talvez usar private \App\Adapters\AuthServiceAdapterInterface $authAdapter e chamar o auth tennha um codigo mais limpo
         $authAdapter = app(\App\Adapters\AuthServiceAdapterInterface::class);
         $user = $authAdapter->me($token);
 
